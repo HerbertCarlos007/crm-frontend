@@ -1,9 +1,9 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import NegotiationsComponent from './components/NegotiationsComponent.vue'
 </script>
 
 <template>
-  <HelloWorld />
+  <NegotiationsComponent />
 </template>
 
 <style scoped>
