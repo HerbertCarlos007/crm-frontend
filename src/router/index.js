@@ -1,10 +1,17 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import Main from '../views/Main.vue'
+import Negotiations from '../views/Negotiations.vue'
+import Company from '../views/Company.vue'
 const routes = [
     {
         path: '/', 
-        name: 'Main',
-        component: Main,
+        name: 'Negotiations',
+        component: Negotiations,
+    },
+
+    {
+        path: '/company', 
+        name: 'Company',
+        component: Company,
     },
 ]
 
