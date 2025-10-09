@@ -1,6 +1,11 @@
 <script setup></script>
 
 <template>
+  <h1
+    class="text-2xl font-bold text-[#27374D] mt-3 mb-3 pl-3"
+  >
+    Empresas
+  </h1>
   <div class="w-full overflow-x-auto bg-[#f4f6f9] p-5 rounded-lg shadow-md">
     <!-- Tabela com bordas -->
     <table class="w-full border-collapse rounded-lg border border-gray-300">
