@@ -1,11 +1,8 @@
 <script setup>
-import HeaderComponent from './components/HeaderComponent.vue';
-import NegotiationsComponent from './components/NegotiationsComponent.vue'
 </script>
 
 <template>
-  <HeaderComponent/>
-  <NegotiationsComponent />
+  <router-view></router-view>
 </template>
 
 <style scoped>

@@ -71,8 +71,7 @@ const toggleMenu = (menuName) => {
           Empresas
           <ul v-if="openMenu === 'empresas'"
             class="absolute left-0 top-full bg-[#27374D] mt-1 p-2 rounded shadow-lg">
-            <li class="px-4 py-2 hover:bg-[#3b4a63]">Lista de Empresas</li>
-            <li class="px-4 py-2 hover:bg-[#3b4a63]">Adicionar Empresa</li>
+            <li class="px-4 py-2 hover:bg-[#3b4a63]">Empresas</li>
           </ul>
         </li>
 
