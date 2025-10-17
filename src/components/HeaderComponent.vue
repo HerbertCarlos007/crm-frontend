@@ -25,7 +25,9 @@ const toggleMenu = (menuName) => {
             v-if="openMenu === 'negociacoes'"
             class="absolute left-0 top-full bg-[#27374D] mt-1 p-2 rounded shadow-lg"
           >
-            <li class="px-4 py-2 hover:bg-[#3b4a63]">Todas Negociações</li>
+            <router-link to="/">
+              <li class="px-4 py-2 hover:bg-[#3b4a63]">Todas Negociações</li>
+            </router-link>
             <li class="px-4 py-2 hover:bg-[#3b4a63]">Nova Negociação</li>
             <li class="px-4 py-2 hover:bg-[#3b4a63]">Etapas</li>
           </ul>
@@ -99,7 +101,9 @@ const toggleMenu = (menuName) => {
             v-if="openMenu === 'config'"
             class="absolute left-0 top-full bg-[#27374D] mt-1 p-2 rounded shadow-lg"
           >
-            <li class="px-4 py-2 hover:bg-[#3b4a63]">Usuários</li>
+            <router-link to="/users">
+              <li class="px-4 py-2 hover:bg-[#3b4a63]">Usuários</li>
+            </router-link>
             <li class="px-4 py-2 hover:bg-[#3b4a63]">Permissões</li>
             <li class="px-4 py-2 hover:bg-[#3b4a63]">Sistema</li>
           </ul>
