@@ -3,7 +3,9 @@ import Negotiations from '../views/Negotiations.vue'
 import Company from '../views/Company.vue'
 import Login from '../views/Login.vue'
 import Users from '../views/Users.vue'
+import Customers from '../views/Customers.vue'
 import UserFormComponent from '../components/UserFormComponent.vue'
+import CustomersFormComponent from '../components/CustomerFormComponent.vue'
 
 const routes = [
     {
@@ -34,6 +36,18 @@ const routes = [
         path: '/form-users', 
         name: 'Users Form',
         component: UserFormComponent,
+    },
+
+     {
+        path: '/customers', 
+        name: 'Customers',
+        component: Customers,
+    },
+
+    {
+        path: '/form-customers', 
+        name: 'Customers Form',
+        component: CustomersFormComponent,
     },
 ]
 

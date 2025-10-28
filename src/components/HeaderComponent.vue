@@ -40,7 +40,9 @@ const toggleMenu = (menuName) => {
             v-if="openMenu === 'clientes'"
             class="absolute left-0 top-full bg-[#27374D] mt-1 p-2 rounded shadow-lg"
           >
-            <li class="px-4 py-2 hover:bg-[#3b4a63]">Lista de Clientes</li>
+            <router-link to="/customers">
+              <li class="px-4 py-2 hover:bg-[#3b4a63]">Lista de Clientes</li>
+            </router-link>
             <li class="px-4 py-2 hover:bg-[#3b4a63]">Adicionar Cliente</li>
           </ul>
         </li>
