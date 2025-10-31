@@ -1,4 +1,8 @@
-<script setup></script>
+<script setup>
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+</script>
 
 <template>
   <body class="bg-gray-50 min-h-screen p-8">
@@ -28,6 +32,7 @@
             </button>
             <button
               class="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+               @click="() => router.push('/users')"
             >
               <svg
                 class="w-5 h-5"
