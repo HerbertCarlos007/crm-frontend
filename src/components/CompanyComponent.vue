@@ -1,4 +1,24 @@
-<script setup></script>
+<script setup>
+import companyService from '@/services/companyService';
+import { onMounted, ref } from 'vue';
+
+const companies = ref([]);
+
+onMounted(() => {
+  getAllCompanies();
+});
+
+const getAllCompanies = async () => {
+  try {
+    const response = await companyService.getAllCompanies();
+    companies.value = response.data;
+  } catch (error) {
+    console.error('Erro ao buscar empresas:', error);
+  }
+};
+
+
+</script>
 
 <template>
   <h1
@@ -43,7 +63,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="border-b border-gray-300 hover:bg-gray-50">
+        <tr v-for="company in companies" :key="company.id" class="border-b border-gray-300 hover:bg-gray-50">
           <td class="p-2 border-r border-l border-gray-300 text-center">
             <input type="checkbox" class="w-4 h-4" />
           </td>
@@ -62,19 +82,19 @@
             </button>
           </td>
           <td class="p-3 text-sm text-gray-700 border-r border-gray-300">
-            1003
+            {{ company.id }}
           </td>
           <td class="p-3 text-sm text-gray-700 border-r border-gray-300">
-            11.222.333/0001-55
+            {{company.document_number}}
           </td>
           <td class="p-3 text-sm text-gray-700 border-r border-gray-300">
-            Gamma Serviços S/A
+            {{ company.company_name }}
           </td>
           <td class="p-3 text-sm text-gray-700 border-r border-gray-300">
-            (31) 90000-1111
+            {{ company.phone_number }}
           </td>
           <td class="p-3 text-sm text-gray-700 border-r border-gray-300">
-            contato@gamma.com
+            {{ company.company_email }}
           </td>
         </tr>
       </tbody>
