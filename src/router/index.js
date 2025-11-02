@@ -6,12 +6,19 @@ import Users from '../views/Users.vue'
 import Customers from '../views/Customers.vue'
 import UserFormComponent from '../components/UserFormComponent.vue'
 import CustomersFormComponent from '../components/CustomerFormComponent.vue'
+import NegotiationsFormComponent from '../components/NegotiationsFormComponent.vue'
 
 const routes = [
     {
         path: '/', 
         name: 'Negotiations',
         component: Negotiations,
+    },
+
+     {
+        path: '/form-negotiation', 
+        name: 'Form Negotiations',
+        component: NegotiationsFormComponent,
     },
 
     {

@@ -1,5 +1,8 @@
 <script setup>
 import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 import negotiationService from "@/services/negotiationService";
 
 const negotiations = ref([]);
@@ -18,7 +21,7 @@ const getAllNegotiations = async () => {
   } catch (error) {
     console.error("Erro ao buscar negociações:", error);
   }
-}
+};
 
 const formatValue = (value) => {
   return value.toLocaleString("pt-BR", {
@@ -30,6 +33,11 @@ const formatValue = (value) => {
 
 <template>
   <h1 class="text-2xl font-bold text-[#27374D] mt-3 mb-3 pl-3">Negociações</h1>
+  <button
+    @click="() => router.push('/form-negotiation')" class="w-28 font-semibold text-white ml-3 mt-3 mb-3 px-4 py-2 bg-green-500 rounded-lg hover:bg-green-600 transition-colors shadow-md hover:shadow-lg"
+  >
+    Novo
+  </button>
   <div class="w-full overflow-x-auto bg-[#f4f6f9] p-5 rounded-lg shadow-md">
     <!--  Adicionando border na tabela para bordas laterais e superior -->
     <table class="w-full border-collapse rounded-lg border border-gray-300">
