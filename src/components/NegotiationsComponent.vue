@@ -1,111 +1,27 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import negotiationService from "@/services/negotiationService";
 
-const negociacoes = ref([
-  {
-    numero: 1434,
-    cliente: "FUNFER FUNDICAO DE FERRO LIMITADA",
-    data: "03/10/2025",
-    prevFechamento: "28/11/2025",
-    valor: 9600.0,
-    etapa: "Negociação",
-    dias: 1,
-    responsavel: "Marilian Souza",
-  },
-  {
-    numero: 1433,
-    cliente: "ASSIST24 ADVANCED SUPPORT LTDA",
-    data: "01/10/2025",
-    prevFechamento: "30/10/2025",
-    valor: 225.0,
-    etapa: "Negociação",
-    dias: -1,
-    responsavel: "Marilian Souza",
-  },
-  {
-    numero: 1432,
-    cliente: "ARCELORMITTAL BRASIL S.A.",
-    data: "01/10/2025",
-    prevFechamento: "31/10/2025",
-    valor: 10740.0,
-    etapa: "Negociação",
-    dias: -1,
-    responsavel: "Marilian Souza",
-  },
-  {
-    numero: 1431,
-    cliente: "YPÊ/QUIMICA AMPARO LTDA",
-    data: "01/10/2025",
-    prevFechamento: "31/10/2025",
-    valor: 3250.0,
-    etapa: "Negociação",
-    dias: -1,
-    responsavel: "Marilian Souza",
-  },
-  {
-    numero: 1425,
-    cliente: "BECK LIDER MAQUINAS",
-    data: "29/09/2025",
-    prevFechamento: "30/10/2025",
-    valor: 1274.5,
-    etapa: "Negociação",
-    dias: -3,
-    responsavel: "Marilian Souza",
-  },
-  {
-    numero: 1424,
-    cliente: "WECHSEL LTDA /",
-    data: "25/09/2025",
-    prevFechamento: "30/10/2025",
-    valor: 1303.5,
-    etapa: "Negociação",
-    dias: -1,
-    responsavel: "Marilian Souza",
-  },
-  {
-    numero: 1423,
-    cliente: "UNIVERSIDADE ESTADUAL DE CAMPINAS",
-    data: "25/09/2025",
-    prevFechamento: "30/10/2025",
-    valor: 5961.84,
-    etapa: "Negociação",
-    dias: -1,
-    responsavel: "Marilian Souza",
-  },
-  {
-    numero: 1413,
-    cliente: "RENOVENT EQUIPAMENTOS E INSTALACOES LTDA",
-    data: "23/09/2025",
-    prevFechamento: "26/11/2025",
-    valor: 648.0,
-    etapa: "Negociação",
-    dias: -1,
-    responsavel: "Marilian Souza",
-  },
-  {
-    numero: 1410,
-    cliente: "W. D. E. REFRIGERACAO COMERCIAL, MONTAGEM E INSTALACAO LTDA",
-    data: "22/09/2025",
-    prevFechamento: "31/10/2025",
-    valor: 246.6,
-    etapa: "Negociação",
-    dias: -1,
-    responsavel: "Marilian Souza",
-  },
-  {
-    numero: 1408,
-    cliente: "FUNFER FUNDICAO DE FERRO LIMITADA",
-    data: "18/09/2025",
-    prevFechamento: "25/11/2025",
-    valor: 5400.0,
-    etapa: "Negociação",
-    dias: -1,
-    responsavel: "Marilian Souza",
-  },
-]);
+const negotiations = ref([]);
 
-const formatarValor = (valor) => {
-  return valor.toLocaleString("pt-BR", {
+onMounted(() => {
+  getAllNegotiations();
+});
+
+const companyId = localStorage.getItem("company_id");
+
+const getAllNegotiations = async () => {
+  try {
+    const response = await negotiationService.getAllNegotiations(companyId);
+    negotiations.value = response.data;
+    console.log("Negociações:", response.data);
+  } catch (error) {
+    console.error("Erro ao buscar negociações:", error);
+  }
+}
+
+const formatValue = (value) => {
+  return value.toLocaleString("pt-BR", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
@@ -155,11 +71,11 @@ const formatarValor = (valor) => {
           >
             Etapa do Funil
           </th>
-          <th
+          <!-- <th
             class="p-3 text-left text-sm font-semibold text-gray-700 border-r border-gray-300"
           >
             Dias a Vencer/Vencidos
-          </th>
+          </th> -->
           <!--  Adicionando border-r na última coluna -->
           <th
             class="p-3 text-left text-sm font-semibold text-gray-700 border-r border-gray-300"
@@ -170,8 +86,8 @@ const formatarValor = (valor) => {
       </thead>
       <tbody>
         <tr
-          v-for="item in negociacoes"
-          :key="item.numero"
+          v-for="negotiation in negotiations"
+          :key="negotiation.id"
           class="border-b border-gray-300 hover:bg-gray-50"
         >
           <!--  Adicionando border-l na primeira coluna de cada linha -->
@@ -193,36 +109,36 @@ const formatarValor = (valor) => {
             </button>
           </td>
           <td class="p-3 text-sm text-gray-700 border-r border-gray-300">
-            {{ item.numero }}
+            {{ negotiation.id }}
           </td>
           <td class="p-3 text-sm text-gray-700 border-r border-gray-300">
-            {{ item.cliente }}
+            {{ negotiation.customer_id }}
           </td>
           <td class="p-3 text-sm text-gray-700 border-r border-gray-300">
-            {{ item.data }}
+            {{ negotiation.created_at }}
           </td>
           <td
             class="p-3 text-sm text-gray-700 border-r border-gray-300 bg-green-400 text-center font-medium"
           >
-            {{ item.prevFechamento }}
+            {{ negotiation.estimated_closing_date }}
           </td>
           <td
             class="p-3 text-sm text-gray-700 border-r border-gray-300 text-right"
           >
-            {{ formatarValor(item.valor) }}
+            {{ formatValue(negotiation.value) }}
           </td>
           <td class="p-3 text-sm text-gray-700 border-r border-gray-300">
-            {{ item.etapa }}
+            {{ negotiation.stage_id }}
           </td>
-          <td
+          <!-- <td
             class="p-3 text-sm text-center border-r border-gray-300 font-medium"
             :class="item.dias >= 0 ? 'bg-green-400' : 'bg-red-400'"
           >
-            {{ item.dias }}
-          </td>
+           
+          </td> -->
           <!--  Adicionando border-r na última coluna de cada linha -->
           <td class="p-3 text-sm text-gray-700 border-r border-gray-300">
-            {{ item.responsavel }}
+            {{ negotiation.created_by }}
           </td>
         </tr>
       </tbody>
