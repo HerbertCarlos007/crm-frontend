@@ -1,10 +1,29 @@
 <script setup>
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import customerService from "@/services/customerService.js";
 
 const router = useRouter();
 
 const userName = localStorage.getItem("name");
 const companyId = localStorage.getItem("company_id");
+
+const customers = ref([]);
+const selectedCustomer = ref("");
+
+const getAllCustomer = async () => {
+  try {
+    const response = await customerService.getCustomer(companyId);
+    customers.value = response.data;
+    console.log("Customer data:", customers.value);
+  } catch (error) {
+    console.error("Error fetching customer data:", error);
+  }
+};
+
+onMounted(() => {
+  getAllCustomer();
+});
 </script>
 
 <template>
@@ -87,10 +106,19 @@ const companyId = localStorage.getItem("company_id");
               >Cliente</label
             >
             <div class="relative">
-              <input
-                type="text"
+              <select
+                v-model="selectedCustomer"
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all pr-10"
-              />
+              >
+                <option value="">Selecione um cliente</option>
+                <option
+                  v-for="customer in customers"
+                  :key="customer.id"
+                  :value="customer.id"
+                >
+                  {{ customer.name }}
+                </option>
+              </select>
             </div>
           </div>
         </div>
@@ -132,7 +160,6 @@ const companyId = localStorage.getItem("company_id");
           <div class="flex items-center gap-4">
             <label class="flex items-center gap-2">
               <input
-               
                 type="radio"
                 name="tipo"
                 value="pf"
@@ -140,9 +167,8 @@ const companyId = localStorage.getItem("company_id");
               />
               <span>Aberto</span>
             </label>
-             <label class="flex items-center gap-2">
+            <label class="flex items-center gap-2">
               <input
-               
                 type="radio"
                 name="tipo"
                 value="pf"
@@ -152,7 +178,6 @@ const companyId = localStorage.getItem("company_id");
             </label>
             <label class="flex items-center gap-2">
               <input
-               
                 type="radio"
                 name="tipo"
                 value="pj"
