@@ -19,6 +19,7 @@ async function getCustomer(companyId) {
 }
 
 
+
 export default {
     createCustomer, getCustomer
 }

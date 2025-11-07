@@ -17,7 +17,6 @@ const getAllNegotiations = async () => {
   try {
     const response = await negotiationService.getAllNegotiations(companyId);
     negotiations.value = response.data;
-    console.log("Negociações:", response.data);
   } catch (error) {
     console.error("Erro ao buscar negociações:", error);
   }
@@ -133,7 +132,7 @@ const formatValue = (value) => {
           <td
             class="p-3 text-sm text-gray-700 border-r border-gray-300 text-right"
           >
-            {{ formatValue(negotiation.value) }}
+            {{(negotiation.value) }}
           </td>
           <td class="p-3 text-sm text-gray-700 border-r border-gray-300">
             {{ negotiation.stage_id }}

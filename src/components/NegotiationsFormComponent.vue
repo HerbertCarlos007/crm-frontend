@@ -1,7 +1,8 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, reactive } from "vue";
 import { useRouter } from "vue-router";
 import customerService from "@/services/customerService.js";
+import negotiationService from "@/services/negotiationService.js";
 
 const router = useRouter();
 
@@ -11,13 +12,37 @@ const companyId = localStorage.getItem("company_id");
 const customers = ref([]);
 const selectedCustomer = ref("");
 
+const negotiationForm = reactive({
+  customer_id: selectedCustomer,
+  stage_id: "",
+  company_id: companyId,
+  closing_reason: "",
+  value: "",
+  status: "",
+  observations: "",
+  order_number: 1001,
+  estimated_closing_date: "",
+  created_by: userName,
+});
+
 const getAllCustomer = async () => {
   try {
     const response = await customerService.getCustomer(companyId);
     customers.value = response.data;
-    console.log("Customer data:", customers.value);
   } catch (error) {
     console.error("Error fetching customer data:", error);
+  }
+};
+
+const createNegotiation = async () => {
+  try {
+    await negotiationService.createNegotiation(negotiationForm);
+
+    if (respose.status === 201) {
+      router.push("/");
+    }
+  } catch (error) {
+    console.error("Erro ao criar negociação:", error);
   }
 };
 
@@ -35,6 +60,7 @@ onMounted(() => {
           <h1 class="text-2xl font-bold text-gray-900">Negociação</h1>
           <div class="flex gap-3">
             <button
+              @click="createNegotiation"
               class="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
             >
               <svg
@@ -139,6 +165,7 @@ onMounted(() => {
               >Prev de Fechamento:</label
             >
             <input
+              v-model="negotiationForm.estimated_closing_date"
               type="date"
               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
             />
@@ -148,10 +175,14 @@ onMounted(() => {
             <label class="block text-sm font-medium text-gray-700 mb-2"
               >Etapa do Funil:</label
             >
-            <input
-              type="text"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-            />
+            <select
+              v-model="negotiationForm.stage_id"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all pr-10"
+            >
+              <option value="">Selecione uma etapa</option>
+              <option value="1">Contato Inicial</option>
+              <option value="2">Pós Venda</option>
+            </select>
           </div>
         </div>
 
@@ -160,27 +191,27 @@ onMounted(() => {
           <div class="flex items-center gap-4">
             <label class="flex items-center gap-2">
               <input
+                v-model="negotiationForm.status"
                 type="radio"
-                name="tipo"
-                value="pf"
+                value="Aberto"
                 class="text-blue-600 focus:ring-blue-500"
               />
               <span>Aberto</span>
             </label>
             <label class="flex items-center gap-2">
               <input
+                v-model="negotiationForm.status"
                 type="radio"
-                name="tipo"
-                value="pf"
+                value="Ganho"
                 class="text-blue-600 focus:ring-blue-500"
               />
               <span>Ganho</span>
             </label>
             <label class="flex items-center gap-2">
               <input
+                v-model="negotiationForm.status"
                 type="radio"
-                name="tipo"
-                value="pj"
+                value="Perdido"
                 class="text-blue-600 focus:ring-blue-500"
               />
               <span>Perdido</span>
@@ -191,10 +222,13 @@ onMounted(() => {
             <label class="block text-sm font-medium text-gray-700 mb-2"
               >Status Finalizador:</label
             >
-            <input
-              type="text"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-            />
+            <select
+              v-model="negotiationForm.closing_reason"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all pr-10"
+            >
+              <option value="">Selecione um status finalizador</option>
+              <option value="1">Cliente Desistiu</option>
+            </select>
           </div>
 
           <div>
@@ -202,6 +236,7 @@ onMounted(() => {
               >Valor do Pedido:</label
             >
             <input
+              v-model="negotiationForm.value"
               type="text"
               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
             />
@@ -224,6 +259,7 @@ onMounted(() => {
               >Anotações do Pedido:</label
             >
             <input
+              v-model="negotiationForm.observations"
               type="text"
               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
             />
@@ -233,10 +269,12 @@ onMounted(() => {
             <label class="block text-sm font-medium text-gray-700 mb-2"
               >Responsável:</label
             >
-            <input
-              type="tel"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-            />
+            <select
+              v-model="negotiationForm.created_by"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all pr-10"
+            >
+              <option value="">Selecione um responsável</option>
+            </select>
           </div>
         </div>
 

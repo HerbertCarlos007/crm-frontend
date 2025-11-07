@@ -5,6 +5,15 @@ async function getAllNegotiations(companyId) {
     return response.data
 }
 
+async function createNegotiation(formdata) {
+    try {
+        const response = await api.post('negotiation', formdata)
+        return response
+    } catch (error) {
+        console.error(error)
+    }
+}
+
 export default {
-    getAllNegotiations
+    getAllNegotiations, createNegotiation
 }

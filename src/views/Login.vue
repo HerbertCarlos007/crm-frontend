@@ -17,7 +17,6 @@ async function handleLogin(e) {
     localStorage.setItem("token", response.data.access_token);
     localStorage.setItem("name", response.data.user.name);
     localStorage.setItem("company_id", response.data.user.company_id);
-    console.log("Login bem-sucedido:", response.data);
     router.push("/");
   } catch (error) {
     console.error("Erro ao fazer login:", error);
